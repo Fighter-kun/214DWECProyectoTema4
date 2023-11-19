@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<!--
+        Descripción: CodigoEjercicio4.7
+        Autor: Carlos García Cachón
+        Fecha de creación/modificación: 19/11/2023
+-->
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="author" content="Carlos García Cachón" />
+    <meta name="description" content="CodigoEjercicio4.7" />
+    <meta name="keywords" content="CodigoEjercicio, 4.7" />
+    <meta name="generator" content="Apache NetBeans IDE 19" />
+    <meta name="generator" content="60" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>Carlos García Cachón</title>
+    <link
+      rel="icon"
+      type="image/jpg"
+      href="../webroot/media/images/favicon.ico"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="../webroot/css/style.css" />
+    <style>
+      .error {
+        color: red;
+      }
+      .correcto {
+        color: green;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="text-center">
+      <h1>
+        7. Crea una aplicación web que sirva para validar NIFs indicando si es correcto o no:
+      </h1>
+    </header>
+    <main>
+      <div class="container mt-3">
+        <div class="row">
+          <div class="col">
+            <script>
+                function validarNIF() {
+                    // Recibo los valores que introduce el usuario en el formulario
+                    let nifIntroducidoPorUsuario = document.getElementById("nif").value;
+        
+                    // Inicializo 'resultado' al NIF que introduce el usuario
+                    let resultado = document.getElementById("resultado");
+        
+                    // Expresión regular para validar el formato del NIF
+                    var regex = /^[XYZ\d]\d{7}[TRWAGMYFPDXBNJZSQVHLCKE]$/;
+        
+                    // Verificar si el NIF cumple con la expresión regular
+                    if (!regex.test(nifIntroducidoPorUsuario)) {
+                        return resultado.innerHTML = "<div class='error'>No cumple con el formato de NIF</div>";
+                    }
+        
+                    // Tabla de letras para el cálculo del NIF
+                    var letras = 'TRWAGMYFPDXBNJZSQVHLCKE';
+
+                    // Variable para comprobar si se introduce un NIE en vez de NIF
+                    var cadenaNIE = "";
+                    // Variable para calcular el indice a comprobar 
+                    var resto = "";
+
+                    // Verificamos si la primera posicion de la cadena es alguna de estas letras, y sustituimos el valor
+                    if (nifIntroducidoPorUsuario.charAt(0) == "X") {
+                      cadenaNIE = 0 + nifIntroducidoPorUsuario.substring(1);
+                    }
+
+                    if (nifIntroducidoPorUsuario.charAt(0) == "Y") {
+                      cadenaNIE = 1 + nifIntroducidoPorUsuario.substring(1);
+                    }
+
+                    if (nifIntroducidoPorUsuario.charAt(0) == "Z") {
+                      cadenaNIE = 2 + nifIntroducidoPorUsuario.substring(1);
+                    }
+        
+                    // Extraer la letra del NIF
+                    var letraNIF = nifIntroducidoPorUsuario.charAt(8);
+        
+                    // Obtener el índice de la letra en la tabla
+                    var indiceLetra = letras.indexOf(letraNIF);
+
+                    if (cadenaNIE == "") {
+                    // Calcular el resto de la división de los números del NIF entre 23
+                    resto = parseInt(nifIntroducidoPorUsuario.substring(0, 8)) % 23;
+                    } else {
+                    // Calcular el resto de la división de los números del NIF entre 23
+                    resto = parseInt(cadenaNIE.substring(0, 8)) % 23;
+                    }
+                    // Verificar si la letra del NIF coincide con el resultado del cálculo
+                    if (indiceLetra !== resto) {
+                        return resultado.innerHTML = "<div class='error'>NIF no válido</div>";
+                    }
+
+                    return resultado.innerHTML = "<div class='correcto'>NIF válido</div>";
+                }
+            </script>
+            <form class="text-center">
+                <label for="nif">NIF:</label>
+                <input type="text" id="nif" maxlength="9" required />
+                <button type="button" onclick="validarNIF()">
+                    Comprobar NIF
+                </button>
+            </form>
+            <div class="text-center" id="resultado"></div>
+        </div>
+        
+        
+        </div>
+      </div>
+    </main>
+    <footer class="position-fixed bottom-0 end-0">
+      <div class="row text-center">
+        <div class="footer-item">
+          <address>
+            ©
+            <a
+              href="../../index.html"
+              style="
+                color: white;
+                text-decoration: none;
+                background-color: #666;
+              "
+              >Carlos García Cachón</a
+            >
+            IES LOS SAUCES 2023-24
+          </address>
+        </div>
+        <div class="footer-item">
+          <a
+            href="../indexProyectoTema4.html"
+            style="color: white; text-decoration: none; background-color: #666"
+          >
+            Inicio</a
+          >
+        </div>
+        <div class="footer-item">
+          <a
+            href="https://github.com/Fighter-kun?tab=repositories"
+            target="_blank"
+            ><img
+              src="../webroot/media/images/github.png"
+              alt="LogoGitHub"
+              class="pe-5"
+          /></a>
+        </div>
+      </div>
+    </footer>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

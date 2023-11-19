@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<!--
+        Descripción: CodigoEjercicio4.1
+        Autor: Carlos García Cachón
+        Fecha de creación/modificación: 01/11/2023
+-->
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="author" content="Carlos García Cachón">
+        <meta name="description" content="CodigoEjercicio4.1">
+        <meta name="keywords" content="CodigoEjercicio, 4.1">
+        <meta name="generator" content="Apache NetBeans IDE 19">
+        <meta name="generator" content="60">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Carlos García Cachón</title>
+        <link rel="icon" type="image/jpg" href="../webroot/media/images/favicon.ico"/>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <link rel="stylesheet" href="../webroot/css/style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/themes/prism.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/prism.min.js"></script>
+        <style>
+            .col {
+                font-size: 10px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <header class="text-center">
+            <h1>1. Crea un script que pida al usuario su fecha de nacimiento y le diga el día de la semana en que nació y 
+                el día de la semana de todos sus cumpleaños hasta este año.:</h1>
+        </header>
+        <main>
+            <div class="container mt-3">
+                <div class="row">
+                    <div class="col">
+                        <pre><code class="language-javascript">
+                                class Granja {
+                                #codigoGranja;
+
+                                constructor(codigoGranja) {
+                                    if (/^[AEIOU]\d{10}[A-Z]$/.test(codigoGranja)) {
+                                        this.codigoGranja = codigoGranja;
+                                        this.vacas = [];
+                                        this.gallinas = [];
+                                    } else {
+                                        console.log(`El código de la granja no es válido.`);
+                                    }
+
+                                }
+
+                                darComerVacas(kilos) {
+                                    if (this.vacas.length === 0) {
+                                        console.log(`No hay vacas que alimentar.`);
+                                    }
+                                    var kilosPorVaca = Math.floor(kilos / this.vacas.length);
+                                    var kilosSobrantes = kilos % this.vacas.length;
+
+                                    this.vacas.forEach(vaca => { vaca.comer(kilosPorVaca) });
+
+                                    if (kilosSobrantes > 0) {
+                                        console.log(`Sobraron ${kilosSobrantes} kg de comida.`)
+                                    }
+
+                                }
+
+                                ordeñarVacas() {
+                                    if (this.vacas.length === 0) {
+                                        console.log('No hay vacas en la granja para ordeñar.');
+                                        return;
+                                    }
+
+                                    this.vacas.forEach(vaca => {vaca.ordeñar(); });
+                                }
+
+                                darComerGallinas(kilos) {
+                                    if (this.gallinas.length === 0) {
+                                        console.log('No hay gallinas en la granja para alimentar.');
+                                        return;
+                                    }
+
+                                    const kilosPorGallina = Math.floor(kilos / this.gallinas.length);
+                                    const kilosSobrantes = kilos % this.gallinas.length;
+
+                                    this.gallinas.forEach(gallina => {
+                                        gallina.comer(kilosPorGallina);
+                                    });
+
+                                    if (kilosSobrantes > 0) {
+                                        console.log(`Sobraron ${kilosSobrantes} kg de comida.`);
+                                    }
+                                }
+
+
+                                comprarVacas(cantidad) {
+                                    for (let i = 0; i < cantidad; i++) {
+                                        var vacaNueva = new Vaca(prompt("Introduce nombre de la vaca: "));
+
+                                        do {
+                                            var idRepetido = false;
+                                            for (const vaca of this.vacas) {
+                                                if (vaca.id == vacaNueva.id) {
+                                                    idRepetido = true;
+                                                }
+                                            }
+                                            if (idRepetido) {
+                                                vacaNueva.cambiarID();
+                                            }
+                                        } while (idRepetido)
+
+                                        this.vacas.push(vacaNueva);
+
+                                    }
+                                }
+
+                                comprarGallinas(cantidad) {
+                                    for (let i = 0; i < cantidad; i++) {
+                                        var gallinaNueva = new Gallina(prompt("Introduce nombre de la gallina: "));
+
+                                        do {
+                                            var idRepetido = false;
+                                            for (const gallina of this.gallinas) {
+                                                if (gallina.id == gallinaNueva.id) {
+                                                    idRepetido = true;
+                                                }
+                                            }
+                                            if (idRepetido) {
+                                                gallinaNueva.cambiarID();
+                                            }
+                                        } while (idRepetido)
+
+                                        this.gallinas.push(gallinaNueva);
+                                    }
+                                }
+
+                                venderVacas(cantidad) {
+                                    if (this.vacas.length === 0) {
+                                        console.log(`No hay vacas en la granja.`);
+                                    }
+                                    this.vacas.splice(0, cantidad);
+                                }
+
+                                venderGallinas(cantidad) {
+                                    if (this.gallinas.length === 0) {
+                                        console.log(`No hay gallinas en la granja.`);
+                                    }
+                                    this.gallinas.splice(0, cantidad);
+                                }
+
+                                verAnimalesEnfermos() {
+                                    console.log("Vacas enfermas:");
+                                    for (const iterator of this.vacas) {
+                                        if (iterator.enfermo) {
+                                            iterator.toString();
+                                        }
+                                    }
+                                    console.log("Gallinas enfermas:")
+                                    for (const iterator of this.gallinas) {
+                                        if (iterator.enfermo) {
+                                            iterator.toString();
+                                        }
+                                    }
+                                }
+
+                                curarAnimales() {
+                                    let tipo = prompt("¿Qué animales vamos a curar?");
+                                    if (tipo == "vaca") {
+                                        let queVaca = prompt("¿Cual es el ID de la vaca que quieres curar?");
+                                        for (const iterator of this.vacas) {
+                                            if (iterator.id == queVaca) {
+                                                iterator.curar();
+                                            }
+                                        }
+                                    } else if(tipo == "gallina") {
+                                        let queGallina = prompt("¿Cual es el ID de la vaca que quieres curar?");
+                                        for (const iterator of this.gallinas) {
+                                            if (iterator.id == queGallina) {
+                                                iterator.curar();
+                                            }
+                                        }
+                                    } else {
+                                        alert("No hay ningún animal enfermo.");
+                                    }
+                                }
+
+                                toString() {
+                                    console.log(`Código de la granja: ${this.codigoGranja}`);
+                                    console.log(`Número de vacas: ${this.vacas.length}`);
+                                    console.log(`Número de gallinas: ${this.gallinas.length}`);
+                                }
+                            }
+                                class Animal {
+                                constructor(nombre, patas, enfermo = false) {
+                                    this.nombre = nombre; // Nombre del animal
+                                    this.patas = patas; // Número de patas
+                                    this.id = this.generarID(); // Número de identificación aleatorio
+                                    this.enfermo = enfermo; // Por defecto, el animal no está enfermo
+                                }
+
+                                // Método para cambiar el número de identificación por otro generado aleatoriamente
+                                cambiarID() {
+                                    this.id = this.generarID();
+                                }
+
+                                // Método para mostrar el nombre del animal y su número de identificación
+                                toString() {
+                                    console.log(`Nombre: ${this.nombre}, ID: ${this.id}`);
+                                }
+
+                                // Método para curar al animal (pone enfermo a false)
+                                curar() {
+                                    if (this.enfermo) {
+                                        this.enfermo = false;
+                                        console.log(`${this.nombre} ha sido curado.`);
+                                        return true;
+                                    } else {
+                                        console.log(`${this.nombre} no está enfermo.`);
+                                        return false;
+                                    }
+                                }
+
+                                // Método para generar un número de identificación aleatorio de 5 cifras
+                                generarID() {
+                                    return Math.floor(10000 + Math.random() * 90000);
+                                }
+                            }
+                                class Gallina extends Animal {
+                                constructor(nombre) {
+                                    super(nombre, 2); // Las gallinas tienen 2 patas
+                                    this.estadoHuevo = 0; // Valor inicial del estado del huevo
+                                }
+
+                                // Método para que la gallina coma
+                                comer(kilosComida) {
+                                    for (let i = 0; i < kilosComida; i++) {
+                                        this.estadoHuevo += 20;
+
+                                        if (this.estadoHuevo == 100) {
+                                            this.ponerHuevo();
+                                        }
+                                    }
+                                }
+
+                                // Método para que la gallina ponga un huevo
+                                ponerHuevo() {
+                                    if (this.enfermo) {
+                                        alert(`La gallina ${this.nombre} (ID: ${this.id}) no puede poner huevos porque está enferma.`);
+                                        this.estadoHuevo = 0;
+                                        return;
+                                    }
+
+                                    alert(`La gallina ${this.nombre} (ID: ${this.id}) ha puesto un huevo.`);
+                                    this.estadoHuevo = 0;
+                                }
+
+                                // Método para curar a la gallina
+                                curar() {
+                                    if (super.curar()) {
+                                        this.estadoHuevo = 0;
+                                    }
+                                }
+                            }
+                                class Vaca extends Animal {
+                                constructor(nombre, enfermo) {
+                                    super(nombre, 4, enfermo); // Las vacas tienen 4 patas
+                                    this.litrosLeche = 1; // Valor inicial de litros de leche
+                                }
+
+                                // Método para que la vaca coma
+                                comer(kilosComida) {
+                                    while (!this.enfermo && kilosComida > 0) {
+                                        this.litrosLeche += 0.5;
+                                        if (this.litrosLeche == 18.5) {
+                                            alert(`La vaca ${this.nombre} (ID: ${this.id}) debe ser ordeñada.`);
+                                        }
+                                        if (this.litrosLeche > 28) {
+                                            alert(`La vaca ${this.nombre} (ID: ${this.id}) ha enfermado.`);
+                                            this.enfermo = true;
+                                        }
+                                        kilosComida--;
+                                    }
+
+                                }
+
+                                // Método para ordeñar a la vaca
+                                ordeñar() {
+                                    if (this.enfermo) {
+                                        alert(`La vaca ${this.nombre} (ID: ${this.id}) no puede ser ordeñada porque está enferma.`);
+                                        return;
+                                    }
+
+                                    alert(`Se han ordeñado ${this.litrosLeche-1} litros de leche de la vaca ${this.nombre} (ID: ${this.id}).`);
+                                    this.litrosLeche = 1;
+                                }
+
+                                // Método para curar a la vaca
+                                curar() {
+                                    if(super.curar()){
+                                        this.litrosLeche = 1;
+                                    }
+                                }
+                            }
+                     
+                    < div class="menu">
+                                  < h2>Menú< /h2>
+                                  < script>
+                                    var miGranja;
+                                    function crearGranja() {
+                                      let codigoGranja = document.getElementById("codigoGranja").value;
+                                      miGranja = new Granja(codigoGranja);
+                                      document.getElementById("formularioGranja").style.display = "none";
+                                    }
+                                  < /script>
+                                  < form class="text-center" id="formularioGranja">
+                                    < label for="codigoGranja">Codigo de la granja:< /label>
+                                    < input type="text" id="codigoGranja" required />
+                                    < button type="button" onclick="crearGranja()">
+                                        Crear Granja
+                                    < /button>
+                                  < /form>
+                                  < ul>
+                                    < li>< button onclick="miGranja.toString()">1. Info. Granja< /button>< /li>
+                                    < li>< button onclick="miGranja.comprarVacas(prompt('¿Cuantas vacas?'))">2. Comprar Vacas< /button>< /li>
+                                    < li>< button onclick="miGranja.comprarGallinas(prompt('¿Cuantas gallinas?'))">3. Comprar Gallinas< /button></ li>
+                                    < li>< button onclick="miGranja.venderVacas(prompt('¿Cuantas vacas?'))">4. Vender Vacas< /button>< /li>
+                                    < li>< button onclick="miGranja.venderGallinas(prompt('¿Cuantas gallinas?'))">5. Vender Gallinas< /button>< /li>
+                                    < li>< button onclick="miGranja.darComerVacas(prompt('¿Cuantos kilos?'))">6. Dar de comer Vacas< /button>< /li>
+                                    < li>< button onclick="miGranja.darComerGallinas(prompt('¿Cuantos kilos?'))">7. Dar de comer Gallinas< /button>< /li>
+                                    < li>< button onclick="miGranja.ordeñarVacas()">8. Ordeñar< /button>< /li>
+                                    < li>< button onclick="miGranja.verAnimalesEnfermos()">9. Ver animales enfermos< /button>< /li>
+                                    < li>< button onclick="miGranja.curarAnimales()">10. Curar< /button>< /li>
+                                  < /ul>
+                                < /div>
+
+
+                              < h3>Presiona 'F12' , para visualizar la consola...< /h3>
+                        </code></pre>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer class="position-fixed bottom-0 end-0">
+            <div class="row text-center">
+                <div class="footer-item">
+                    <address>© <a href="../../index.html" style="color: white; text-decoration: none; background-color: #666">Carlos García Cachón</a>
+                        IES LOS SAUCES 2023-24 </address>
+                </div>
+                <div class="footer-item">
+                    <a href="../indexProyectoTema4.html" style="color: white; text-decoration: none; background-color: #666">Inicio</a>
+                </div>
+                <div class="footer-item">
+                    <a href="https://github.com/Fighter-kun?tab=repositories" target="_blank"><img
+                            src="../webroot/media/images/github.png" alt="LogoGitHub" class="pe-5"/></a>
+                </div>
+            </div>
+        </footer>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    </body>
+
+</html>

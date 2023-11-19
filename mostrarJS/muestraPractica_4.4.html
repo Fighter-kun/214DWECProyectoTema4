@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<!--
+        Descripción: CodigoEjercicio4.4
+        Autor: Carlos García Cachón
+        Fecha de creación/modificación: 19/11/2023
+-->
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="author" content="Carlos García Cachón">
+        <meta name="description" content="CodigoEjercicio4.4">
+        <meta name="keywords" content="CodigoEjercicio, 4.4">
+        <meta name="generator" content="Apache NetBeans IDE 19">
+        <meta name="generator" content="60">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Carlos García Cachón</title>
+        <link rel="icon" type="image/jpg" href="../webroot/media/images/favicon.ico"/>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <link rel="stylesheet" href="../webroot/css/style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/themes/prism.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/prism.min.js"></script>
+        <style>
+            .col {
+                font-size: 10px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <header class="text-center">
+            <h1>4. Crea un script que pida al usuario un mes y devuelva todas las personas que cumplan años en ese mes.
+      Los datos de las personas las tendremos en un mapa que generaremos de forma aleatoria.
+      El mapa contendrá 100 pares clave valor, donde las claves serán números consecutivos y
+      los valores fechas de nacimiento generadas aleatoriamente entre el 01/01/1980 y el 31/12/2023:</h1>
+        </header>
+        <main>
+            <div class="container mt-3">
+                <div class="row">
+                    <div class="col">
+                        <pre><code class="language-javascript">
+                            function comprobarCumpleaños() {
+                            // Recibo los valores que introduce el usuario en el formulario
+                            let mesIntroducidoPorUsuario = parseInt(document.getElementById("mes").value);
+                            // Valido la entrada con la ejecución del código o mostrando un mensaje de error por consola
+                            if (mesIntroducidoPorUsuario < 13 && mesIntroducidoPorUsuario > 0) {
+                              // Esta función sirve para generar una fecha aleatoria
+                              function fechaNacimientoAleatorio() {
+
+                                // Defino el rango de años (1980 - 2023)
+                                const añoMinimo = 1980;
+                                const añoMaximo = 2023;
+
+                                // Genero un año aleatorio en el rango
+                                let año = Math.floor(Math.random() * (añoMaximo - añoMinimo + 1)) + añoMinimo;
+
+                                // Genero un mes aleatorio (1 - 12)
+                                let mes = Math.floor(Math.random() * 12) + 1;
+
+                                // Obtengo el último día del mes generado
+                                let ultimoDiaDelMes = new Date(año, mes, 0).getDate();
+
+                                // Genero un día aleatorio (1 - último día del mes)
+                                let dia = Math.floor(Math.random() * ultimoDiaDelMes) + 1;
+
+                                return `${año}/${mes}/${dia}`;
+                              }
+
+                              // Declaro el mapa donde voy a almacenar las fechas de nacimiento
+                              mapaFechaNacimiento = new Map();
+
+                              // En el bucle cargamos los valores aleatorios 
+                              for (let clave = 1; clave < 101; clave++) {
+                                mapaFechaNacimiento.set(clave, fechaNacimientoAleatorio());
+                              }
+
+                              // Declaro un array para los nombre de los meses
+                              function obtenerMes(mes) {
+                                const aMes = [
+                                  "Enero",
+                                  "Febrero",
+                                  "Marzo",
+                                  "Abril",
+                                  "Mayo",
+                                  "Junio",
+                                  "Julio",
+                                  "Agosto",
+                                  "Septiembre",
+                                  "Octubre",
+                                  "Noviembre",
+                                  "Diciembre",
+                                ];
+                                return aMes[mes];
+                              }
+                              // Construyo la tabla
+                              let tabla = "< h2>Cumpleaños en el siguiente mes: < /h2>" +
+                                "< table border='1' style='text-align: center'>" +
+                                "< tr>< th colspan='2'>" + obtenerMes(mesIntroducidoPorUsuario - 1) + "< /th>< /tr>";
+
+                              for (let [clave, valor] of mapaFechaNacimiento.entries()) {
+                                // Me quedo con el mes de la fecha de nacimiento y le sumo 1 para estar en el rango de 1-12
+                                let mesNacimiento = new Date(valor).toLocaleDateString('es-ES', { month: 'numeric' });
+                                if (mesNacimiento == mesIntroducidoPorUsuario) {
+                                  tabla += "< tr>< td>" + clave + "< /td>";
+                                  tabla += "< td>" + valor + "< /td>< /tr>";
+                                }
+                              }
+
+                              // Cierro la etiqueta '< tabla>' 
+                              tabla += "< /table>";
+
+                              // Muestro la tabla que hemos creado en el elemento resultado
+                              resultado.innerHTML = tabla;
+                            } else {
+                              console.log("ERROR: Número de mes incorrecto, introduce un número entre 1 y 12.");
+                            }
+                        </code></pre>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer class="position-fixed bottom-0 end-0">
+            <div class="row text-center">
+                <div class="footer-item">
+                    <address>© <a href="../../index.html" style="color: white; text-decoration: none; background-color: #666">Carlos García Cachón</a>
+                        IES LOS SAUCES 2023-24 </address>
+                </div>
+                <div class="footer-item">
+                    <a href="../indexProyectoTema4.html" style="color: white; text-decoration: none; background-color: #666">Inicio</a>
+                </div>
+                <div class="footer-item">
+                    <a href="https://github.com/Fighter-kun?tab=repositories" target="_blank"><img
+                            src="../webroot/media/images/github.png" alt="LogoGitHub" class="pe-5"/></a>
+                </div>
+            </div>
+        </footer>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    </body>
+
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<!--
+        Descripción: CodigoEjercicio4.3
+        Autor: Carlos García Cachón
+        Fecha de creación/modificación: 15/11/2023
+-->
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="author" content="Carlos García Cachón">
+  <meta name="description" content="CodigoEjercicio4.3">
+  <meta name="keywords" content="CodigoEjercicio, 4.3">
+  <meta name="generator" content="Apache NetBeans IDE 19">
+  <meta name="generator" content="60">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Carlos García Cachón</title>
+  <link rel="icon" type="image/jpg" href="../webroot/media/images/favicon.ico" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="stylesheet" href="../webroot/css/style.css">
+</head>
+
+<body>
+  <header class="text-center">
+    <h1>3. Crea un script que pida al usuario un mes y un año y muestre un
+      calendario de ese mes.</h1>
+  </header>
+  <main>
+    <div class="container mt-3">
+      <div class="row">
+        <div class="col text-center">
+          <script>
+            function generarCalendario() {
+              // Recibo los valores que introduce el usuario
+              let mes = parseInt(document.getElementById("mes").value) - 1;
+              let año = parseInt(document.getElementById("año").value);
+      
+              // Declaro un array para los nombre de los meses
+              function obtenerMes(mes) {
+                const aMes = [
+                  "Enero",
+                  "Febrero",
+                  "Marzo",
+                  "Abril",
+                  "Mayo",
+                  "Junio",
+                  "Julio",
+                  "Agosto",
+                  "Septiembre",
+                  "Octubre",
+                  "Noviembre",
+                  "Diciembre",
+                ];
+                return aMes[mes];
+              }
+      
+              // Obtengo el primer y último día del mes 
+              let primerDia = new Date(año, mes, 1).getDay();
+              const ultimoDia = new Date(año, mes + 1, 0).getDate();
+      
+              // Obtengo el elemento donde se mostrará el resultado
+              let resultado = document.getElementById("resultado");
+      
+              // Construyo la tabla
+              let tabla = "<h2>" + obtenerMes(mes) + " del " + año + "</h2>" +
+                          "<table border='1' style='text-align: right'>" +
+                          "<tr><th>Lun</th><th>Mar</th><th>Mié</th><th>Jue</th><th>Vie</th><th>Sáb</th><th>Dom</th></tr>";
+
+              // Ajusto para que la semana comience en lunes
+              primerDia = (primerDia === 0) ? 6 : primerDia - 1;
+              // Relleno los días del mes en la tabla
+              let dias = 1;
+              for (let i = 0; i < 6; i++) {
+                tabla += "<tr>";
+                for (let j = 0; j < 7; j++) {
+                  if (i === 0 && j < primerDia) {
+                    // Celda vacía para los días anteriores al primer día del mes
+                    tabla += "<td></td>";
+                  } else if (dias <= ultimoDia) {
+                    // Celda con el día actual y formato ajustado
+                    tabla += "<td>" + (dias < 10 ? " " + dias : dias) + "</td>";
+                    dias++;
+                  }
+                }
+                tabla += "</tr>";
+                // Salgo del bucle cuando relleno todos los días del mes
+                if (dias > ultimoDia) {
+                  break;
+                }
+              }
+      
+              // Cierro la etiqueta '<tabla>' 
+              tabla += "</table>";
+      
+              // Muestro la tabla que hemos creado en el elemento resultado
+              resultado.innerHTML = tabla;
+            }
+          </script>
+          <form>
+            <label for="mes">Mes (1-12):</label>
+            <input type="number" id="mes" min="1" max="12" required />
+            <label for="año">Año:</label>
+            <input type="number" id="año" required />
+            <button type="button" onclick="generarCalendario()">
+              Generar Calendario
+            </button>
+          </form>
+          <div id="resultado"></div>
+      </div>
+    </div>
+  </main>
+  <footer class="position-fixed bottom-0 end-0">
+    <div class="row text-center">
+      <div class="footer-item">
+        <address>© <a href="../../index.html" style="color: white; text-decoration: none; background-color: #666">Carlos
+            García Cachón</a>
+          IES LOS SAUCES 2023-24 </address>
+      </div>
+      <div class="footer-item">
+        <a href="../indexProyectoTema4.html" style="color: white; text-decoration: none; background-color: #666">
+          Inicio</a>
+      </div>
+      <div class="footer-item">
+        <a href="https://github.com/Fighter-kun?tab=repositories" target="_blank"><img
+            src="../webroot/media/images/github.png" alt="LogoGitHub" class="pe-5" /></a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
