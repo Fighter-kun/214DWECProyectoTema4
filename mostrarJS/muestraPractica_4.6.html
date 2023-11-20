@@ -45,7 +45,7 @@
                               let resultado = document.getElementById("resultado");
 
                               // Expresión regular para validar que el código postal tenga 5 dígitos
-                              var regex = /^\d{5}$/;
+                              var regex = /^(?:0[1-9]\d{3}|[1-4]\d{4}|5[0-2]\d{3})$/;
 
                               // Verificar si el código postal cumple con la expresión regular
                               if (!regex.test(codigoPostalIntroducidoPorUsuario)) {
